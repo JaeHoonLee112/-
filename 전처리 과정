@@ -1,0 +1,22 @@
+import pandas as pd
+from google.colab import drive
+
+# Google Drive 마운트
+drive.mount('/content/drive')
+
+# 데이터 불러오기
+file_path = '/content/drive/My Drive/mobil_mesin_harga.csv'
+data = pd.read_csv(file_path, encoding='utf-8')
+
+# 열 이름 정리 (공백 제거 및 소문자로 변경)
+data.columns = data.columns.str.strip().str.lower().str.replace(' ', '_')
+
+# 중복 데이터 제거
+data = data.drop_duplicates()
+
+# 이상치 및 값 분포 확인
+print(data.describe())
+
+# 전처리된 데이터 저장 (Google Drive에 저장)
+data.to_csv('/content/drive/My Drive/processed_mobil_mesin_harga.csv', index=False)
+print("Processed data saved successfully.")
